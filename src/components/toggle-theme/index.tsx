@@ -1,17 +1,17 @@
-import { theme as mockTheme } from "../../config/theme"
+import { useContextHook } from '../../context/hook';
 import { MoonIcon } from "../icons/moon";
 import { SunIcon } from "../icons/sun";
 import { Styles } from "./styles";
 
 export const ToggleTheme = () => {
 
-    const theme = mockTheme.light;
+    const { state, toggleTheme } = useContextHook()
 
     return (
-        <Styles.Container>
+        <Styles.Container onClick={toggleTheme}>
             <Styles.Bull>
                 <Styles.Icon>
-                    {theme.name === 'light' ? <SunIcon /> : <MoonIcon />}
+                    {state.themeName === 'light' ? <SunIcon /> : <MoonIcon />}
                 </Styles.Icon>
             </Styles.Bull>
         </Styles.Container>

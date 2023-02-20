@@ -1,21 +1,19 @@
-import { useState } from "react";
 import { Styles } from "./styles";
 import { Button } from "../button";
 
 import { PencilIcon } from "../icons/pencil";
 import { TrashIcon } from "../icons/trash";
 import { ItemForm } from "./form";
+import { useContextHook } from '../../context/hook';
+import { IItem } from "../../interfaces/IItem";
 
-interface IProps {
+interface IProps extends IItem {
     position: number;
 }
 
-export const Item = ({ position }: IProps) => {
+export const Item = ({ position, nickname, whatsapp, age, id, isEditing = false }: IProps) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-
-    const handleClickEdit = () => setIsEditing(true);
-    const handleSubmit = () => setIsEditing(false);
+    const { deleteItem, toggleIsEditing } = useContextHook();
 
     return (
         <Styles.Container>
@@ -23,18 +21,27 @@ export const Item = ({ position }: IProps) => {
             {
                 isEditing
                     ? (
-                        <ItemForm onSubmit={handleSubmit} />
+                        <ItemForm
+                            {...{
+                                nickname,
+                                whatsapp,
+                                age,
+                                id,
+                                isEditing,
+                            }}
+                        />
                     )
                     : (
                         <>
-                            <p>Nickname</p>
-                            <p>22</p>
-                            <p>+55 21 91234-5678</p>
+                            <p>{nickname ?? <i>Insert name</i>}</p>
+                            <p>{age ?? <i>Insert age</i>}</p>
+                            <p>{whatsapp ?? <i>Insert phone</i>}</p>
+
                             <Styles.GroupButtons>
-                                <Button onClick={handleClickEdit}>
+                                <Button onClick={() => toggleIsEditing(id)}>
                                     <PencilIcon />
                                 </Button>
-                                <Button>
+                                <Button onClick={() => deleteItem(id)}>
                                     <TrashIcon />
                                 </Button>
                             </Styles.GroupButtons>

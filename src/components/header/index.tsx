@@ -7,7 +7,6 @@ export const Header = () => {
         <Styles.Container>
             <Container>
                 <h1>My Context App</h1>
-                {/* <Button>Create new person</Button> */}
                 <ToggleTheme />
             </Container>
         </Styles.Container>
